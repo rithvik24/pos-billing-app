@@ -16,13 +16,11 @@ const Register = (props) => {
         address : ''
     }
     const onSubmit = (formData,onSubmitProps) => {
-        const formReset = () => {
+        const handleAfterRegister = () => {
             onSubmitProps.resetForm()
-        }
-        const pushToLogin = () => {
             props.history.push('/login')
         }
-        dispatch(asyncRegisterUser(formData,formReset,pushToLogin))
+        dispatch(asyncRegisterUser(formData,handleAfterRegister))
     }
     const validationSchema = yup.object().shape({
         username : yup.string().required('Required').min(4,'username must be minimum 4 characters long').max(64,'username should not be more than 64 characters long'),

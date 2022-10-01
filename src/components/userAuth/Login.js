@@ -1,15 +1,24 @@
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage} from 'formik'
 import * as yup from 'yup'
+import { useDispatch } from 'react-redux'
+import { asyncLoginUser } from '../../actions/userActions'
 
 const Login = (props) => {
+    const { handleIsLoggedIn } = props
+    const dispatch = useDispatch()
+
     const initialValues = {
         email : '',
         password : ''
     }
     const onSubmit = (formdata,onSubmitProps) => {
-        console.log(formdata)
-        onSubmitProps.resetForm()
+        const handleAfterLogin = () => {
+            onSubmitProps.resetForm()
+            handleIsLoggedIn()
+            props.history.push('/')
+        }
+        dispatch(asyncLoginUser(formdata,handleAfterLogin))
     }
     const validationSchema = yup.object().shape({
         email : yup.string().required('Required').email('Invalid email fromat'),
