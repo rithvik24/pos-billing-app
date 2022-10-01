@@ -41,3 +41,25 @@ export const asyncLoginUser = (formData,handleAfterLogin) =>{
         })
     }
 }
+
+export const asyncGetUser = () => {
+    return (dispatch) => {
+        axios.get('/users/account',{
+            headers : { Authorization : `Bearer ${localStorage.getItem('token')}`}
+        })
+        .then((response) => {
+            const result = response.data
+            dispatch(setUser(result))
+        })
+        .catch((err) => {
+            alert(err.message)
+        })
+    }
+}
+
+export const setUser = (result) => {
+    return {
+        type : 'SET_USER',
+        payload : result
+    }
+}
