@@ -1,8 +1,13 @@
 import React from 'react'
 import { Formik,Form,Field,ErrorMessage } from 'formik'
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
+import { asyncRegisterUser } from '../../actions/usersActions'
 
 const Register = (props) => {
+    const dispatch = useDispatch()
+
     const initialValues = {
         username : '',
         email : '',
@@ -11,8 +16,14 @@ const Register = (props) => {
         address : ''
     }
     const onSubmit = (values,onSubmitProps) => {
-        console.log('formData',values)
-        onSubmitProps.resetForm()
+        const formData = {...values}
+        const formReset = () => {
+            onSubmitProps.resetForm()
+        }
+        const pushToLogin = () => {
+            props.history.push('/login')
+        }
+        dispatch(asyncRegisterUser(formData,formReset,pushToLogin))
     }
     const validationSchema = yup.object().shape({
         username : yup.string().required('required').min(4,'username must be minimum 4 characters long').max(64,'username should not be more than 64 characters long'),
@@ -52,6 +63,8 @@ const Register = (props) => {
                 <ErrorMessage name='address' component='span'/>
                 <br/>
                 <button type='submit'> Register </button>
+                <br/>
+                <p>Already have a account? <Link to='/login'> Login </Link> </p>
             </Form>
         </Formik>
     </div>
