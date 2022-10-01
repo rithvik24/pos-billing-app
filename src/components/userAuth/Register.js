@@ -3,7 +3,7 @@ import { Formik,Form,Field,ErrorMessage } from 'formik'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
-import { asyncRegisterUser } from '../../actions/usersActions'
+import { asyncRegisterUser } from '../../actions/userActions'
 
 const Register = (props) => {
     const dispatch = useDispatch()
@@ -15,8 +15,7 @@ const Register = (props) => {
         businessName : '',
         address : ''
     }
-    const onSubmit = (values,onSubmitProps) => {
-        const formData = {...values}
+    const onSubmit = (formData,onSubmitProps) => {
         const formReset = () => {
             onSubmitProps.resetForm()
         }
@@ -26,11 +25,11 @@ const Register = (props) => {
         dispatch(asyncRegisterUser(formData,formReset,pushToLogin))
     }
     const validationSchema = yup.object().shape({
-        username : yup.string().required('required').min(4,'username must be minimum 4 characters long').max(64,'username should not be more than 64 characters long'),
-        email : yup.string().required('required').email('invalid email format'),
-        password : yup.string().required('required').min(8,'password must be minimum 8 characters long').max(128,'password should not be more than 128 characters long'),
-        businessName : yup.string().required('required'),
-        address : yup.string().required('required')
+        username : yup.string().required('Required').min(4,'username must be minimum 4 characters long').max(64,'username should not be more than 64 characters long'),
+        email : yup.string().required('Required').email('invalid email format'),
+        password : yup.string().required('Required').min(8,'password must be minimum 8 characters long').max(128,'password should not be more than 128 characters long'),
+        businessName : yup.string().required('Required'),
+        address : yup.string().required('Required')
     })
 
   return (
