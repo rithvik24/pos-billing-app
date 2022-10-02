@@ -1,25 +1,33 @@
 import React,{useState,useEffect} from 'react'
 import { Link, Route, withRouter} from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import Home from './Home'
 import Register from './Register'
 import Login from './Login'
 import Account from './Account'
+import { logoutUser } from '../../actions/userActions'
+import CustomersContainer from '../customers/CustomersContainer'
 
 const Navbar = (props) => {
   const [ isLoggedIn, setIsLoggedIn] = useState(false)
-  
+  const dispatch = useDispatch()
+
   useEffect(() => {
     if(localStorage.getItem('token')){
       setIsLoggedIn(true)
     }
   },[])
+  
+  const handleAfterLogOut = () => {
+    localStorage.removeItem('token')
+    props.history.push('/')
+    handleIsLoggedIn()
+  }
 
   const handleLogout = () => {
     const confirmLogout = window.confirm('Are you sure?')
     if(confirmLogout){
-      alert('successfully logged out')
-      localStorage.removeItem('token')
-      handleIsLoggedIn()
+      dispatch(logoutUser(handleAfterLogOut))
     }
   }
 
@@ -30,17 +38,18 @@ const Navbar = (props) => {
 
   return (
     <div>
-      <Link to='/'> Home </Link>      
+      <Link to = '/'> Home </Link>      
       {
         isLoggedIn ? (
           <>
-            <Link to='/account'> Account </Link>
-            <Link to={`${props.location.pathname}`} onClick={handleLogout}> Logout </Link>
+            <Link to = '/account'> Account </Link>
+            <Link to='/customers'> Customers </Link>
+            <Link to = {`${props.location.pathname}`} onClick={handleLogout}> Logout </Link>
           </>
         ) : (
           <>
-            <Link to='/register'> Register </Link>      
-            <Link to='/login'> Login </Link>      
+            <Link to = '/register'> Register </Link>      
+            <Link to = '/login'> Login </Link>      
           </>
         )
       }
@@ -50,7 +59,8 @@ const Navbar = (props) => {
       <Route path='/login' render={ (props) => {
         return <Login {...props} handleIsLoggedIn = {handleIsLoggedIn}/>
       }}/>
-      <Route path='/account' component={Account}/>
+      <Route path='/account' component={Account} exact={true}/>
+      <Route path='/customers' component={CustomersContainer}/>
     </div>
   )
 }

@@ -8,6 +8,9 @@ const userReducers = (state = userInitialState, action) => {
         case 'SET_USER' : {
             return {...state , data : {...action.payload}}
         }
+        case 'LOGOUT_USER' : {
+            return { ...state , data : {}}
+        }
         default : {
             return {...state}
         }

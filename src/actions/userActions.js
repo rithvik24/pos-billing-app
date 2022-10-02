@@ -57,6 +57,13 @@ export const asyncGetUser = () => {
     }
 }
 
+export const logoutUser = (handleAfterLogOut) => {
+    handleAfterLogOut()
+    return {
+        type : 'LOGOUT_USER'
+    }
+}
+
 export const setUser = (result) => {
     return {
         type : 'SET_USER',

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Formik, Form, Field, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 import { useDispatch } from 'react-redux'
@@ -16,7 +17,7 @@ const Login = (props) => {
         const handleAfterLogin = () => {
             onSubmitProps.resetForm()
             handleIsLoggedIn()
-            props.history.push('/')
+            props.history.push('/account')
         }
         dispatch(asyncLoginUser(formdata,handleAfterLogin))
     }
@@ -43,6 +44,7 @@ const Login = (props) => {
                <br/>
                <button type='submit'> Login </button>
                <button type='reset'> Cancel </button>
+               <p> New user? <Link to='/register'> Register </Link> </p>
             </Form>
         </Formik>
     </div>
