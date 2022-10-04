@@ -9,7 +9,21 @@ const customersReducers = (state=customersInitialState, action) => {
             return {...state, data : [...action.payload]}
         }
         case 'ADD_CUSTOMER' : {
-            return {...state , data : [...state.data , {...action.payload}] }
+            return {...state , data : [{...action.payload}, ...state.data] }
+        }
+        case 'EDIT_CUSTOMER' : {
+            return { ...state , data : state.data.map((ele) => {
+                if(ele._id === action.payload._id){
+                    return {...action.payload}
+                }else{
+                    return {...ele}
+                }
+            })}
+        }
+        case 'REMOVE_CUSTOMER' : {
+            return {...state , data : state.data.filter((ele) => {
+                return ele._id !== action.payload._id
+            })}
         }
         default : {
             return {...state}

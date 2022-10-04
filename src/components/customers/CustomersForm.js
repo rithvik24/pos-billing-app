@@ -1,9 +1,14 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { Formik, Form, Field, ErrorMessage} from 'formik'
 import * as yup from 'yup'
 
 const CustomersForm = (props) => {
+    const [ toggle, setToggle] = useState(false)
     const { formSubmit } = props
+
+    const handleToggle = () => {
+        setToggle(!toggle)
+    }
 
     const initialValues = {
         name : '',
@@ -13,6 +18,7 @@ const CustomersForm = (props) => {
     const onSubmit = (formData,onSubmitProps) => {
         const handleAfterAddCust = () => {
             onSubmitProps.resetForm()
+            handleToggle()
         }
         formSubmit(formData,handleAfterAddCust)
     }
@@ -23,20 +29,31 @@ const CustomersForm = (props) => {
 
   return (
     <div>
-        <Formik 
-        initialValues={initialValues}
-        onSubmit = {onSubmit}
-        validationSchema={validationSchema}
-        > 
-            <Form>
-                <Field type='text' placeholder='name*' name='name'/>
-                <ErrorMessage name='name' component='span'/>
-                <Field type='text' placeholder='mobile*' name='mobile'/>
-                <ErrorMessage name='mobile' component='span'/>
-                <Field type='text' placeholder='email' name='email'/>
-                <button type='submit'>Add</button>
-            </Form>
-        </Formik>
+        {
+            toggle ? (
+                <>
+                    <Formik 
+                    initialValues={initialValues}
+                    onSubmit = {onSubmit}
+                    validationSchema={validationSchema}
+                    > 
+                        <Form>
+                            <Field type='text' placeholder='name*' name='name'/>
+                            <ErrorMessage name='name' component='span'/>
+                            <Field type='text' placeholder='mobile*' name='mobile'/>
+                            <ErrorMessage name='mobile' component='span'/>
+                            <Field type='text' placeholder='email' name='email'/>
+                            <button type='submit'>Save</button>
+                        </Form>
+                    </Formik>
+                    <button onClick={handleToggle}>cancel</button>
+                </>
+            ) : (
+                <>
+                    <button onClick={handleToggle}> Add </button>
+                </>
+            )
+        }
     </div>
   )
 }
