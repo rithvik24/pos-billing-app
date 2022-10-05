@@ -7,6 +7,7 @@ import Login from './Login'
 import Account from './Account'
 import { logoutUser } from '../../actions/userActions'
 import CustomersContainer from '../customers/CustomersContainer'
+import ProductsContainer from '../Products/ProductsContainer'
 
 const Navbar = (props) => {
   const [ isLoggedIn, setIsLoggedIn] = useState(false)
@@ -44,6 +45,7 @@ const Navbar = (props) => {
           <>
             <Link to = '/account'> Account </Link>
             <Link to='/customers'> Customers </Link>
+            <Link to='/products'> Products </Link>
             <Link to = {`${props.location.pathname}`} onClick={handleLogout}> Logout </Link>
           </>
         ) : (
@@ -61,7 +63,8 @@ const Navbar = (props) => {
       }}/>
       <Route path='/account' component={Account} exact={true}/>
       <Route path='/customers' component={CustomersContainer}/>
-    </div>
+      <Route path='/products' component={ProductsContainer} />
+    </div> 
   )
 }
 
