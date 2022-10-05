@@ -11,12 +11,13 @@ const Pagination = (props) => {
 
   return (
     <div>
+        <span>Page </span>
         {
             pageNumbers.map((pageNumber) => {
                 return (
                     <span key={pageNumber} onClick = {() => {
                         handlePagination(pageNumber)
-                    }}>  {pageNumber} </span>
+                    }}>{pageNumber} </span>
                 )
             })
         }

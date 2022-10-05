@@ -1,7 +1,7 @@
 import React from "react";
 
 const EditCustomer = (props) => {
-  const {name,mobile,email, handleEditFormChange, handleCancel} = props
+  const { name,mobile,email, handleEditFormChange, handleCancel} = props
   
 
   return (
@@ -10,7 +10,7 @@ const EditCustomer = (props) => {
         <input type="text" placeholder="name*" name="name" value={name} onChange={handleEditFormChange}/>
       </td>
       <td>
-      <input type="text" placeholder="mobile*" name="mobile" value={mobile}  onChange={handleEditFormChange}/>
+        <input type="text" placeholder="mobile*" name="mobile" value={mobile}  onChange={handleEditFormChange}/>
       </td>
       <td>
         <input type="text" placeholder="email" name="email" value={email}  onChange={handleEditFormChange}/>

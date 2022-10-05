@@ -35,7 +35,6 @@ const CustomersContainer = (props) => {
   return (
     <div>
       <AddCustomer />
-      <h2> Customers </h2>
       <input type='text' placeholder="search by name or number" value={searchInput} onChange={handleChange}/>
       <CustomersListing searchInput={searchInput} customers={customersInCurrentPage}/>
       <Pagination totalCust = {customers.data.length} custPerPage={custPerPage} handlePagination = {handlePagination} />
