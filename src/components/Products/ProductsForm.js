@@ -22,6 +22,8 @@ const ProductsForm = (props) => {
         })
     })
 
+
+
   return (
     <div>
         <form onSubmit={formik.handleSubmit}>
@@ -31,6 +33,9 @@ const ProductsForm = (props) => {
             { formik.touched.price && formik.errors && <span> {formik.errors.price} </span>  }
             <button type='submit'> Add </button>
         </form>
+            <button onClick={() => { 
+                formik.resetForm()
+            }}> cancel </button>
     </div>
   )
 }

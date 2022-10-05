@@ -11,6 +11,20 @@ const productsReducers = (state = productsInitialState, action) => {
         case 'ADD_PRODUCTS' : {
             return {...state , data : [{...action.payload} , ...state.data]}
         }
+        case 'EDIT_PRODUCT' : {
+            return {...state , data : state.data.map((ele) => {
+                if(ele._id === action.payload._id){
+                    return { ...action.payload }
+                }else{
+                    return {...ele}
+                }
+            })}
+        }
+        case 'REMOVE_PRODUCT' : {
+            return { ...state, data : state.data.filter((ele) => {
+                return ele._id !== action.payload._id
+            })}
+        }
         default : {
             return {...state}
         }
