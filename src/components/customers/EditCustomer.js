@@ -1,12 +1,11 @@
 import React from "react";
 
 const EditCustomer = (props) => {
-  const { i, name,mobile,email, handleEditFormChange, handleCancel} = props
+  const {name,mobile,email, handleEditFormChange, handleCancel} = props
   
 
   return (
     <tr>
-      <td> {i+1}</td>
       <td>
         <input type="text" placeholder="name*" name="name" value={name} onChange={handleEditFormChange}/>
       </td>

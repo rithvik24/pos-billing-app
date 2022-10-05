@@ -95,6 +95,18 @@ export const asyncRemoveCustomer = (id) => {
     }
 }
 
+export const sortByNameAscending = () =>{
+    return {
+        type : 'SORT_BY_NAME_ASCENDING'
+    }
+}
+
+export const sortByNameDescending = () =>{
+    return {
+        type : 'SORT_BY_NAME_DESCENDING'
+    }
+}
+
 export const addCustomer = (result) => {
     return {
         type : 'ADD_CUSTOMER',

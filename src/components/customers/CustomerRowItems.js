@@ -1,11 +1,10 @@
 import React from "react";
 
 const CustomerRowItems = (props) => {
-    const { customer, i , showCustDetails , handleEdit, handleRemove } = props
+    const { customer,showCustDetails , handleEdit, handleRemove } = props
 
   return (
     <tr>
-      <td> {i + 1} </td>
       <td> {customer.name} </td>
       <td> {customer.mobile} </td>
       <td> {customer.email ? customer.email : "N/A"} </td>
