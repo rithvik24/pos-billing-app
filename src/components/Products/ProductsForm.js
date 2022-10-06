@@ -27,9 +27,9 @@ const ProductsForm = (props) => {
   return (
     <div>
         <form onSubmit={formik.handleSubmit}>
-            <input type='text' name='name' value={formik.values.name} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+            <input type='text' name='name' {...formik.getFieldProps('name')}/>
             { formik.touched.name && formik.errors && <span> {formik.errors.name} </span>  }
-            <input type='text' name='price' value={formik.values.price} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+            <input type='text' name='price' {...formik.getFieldProps('price')}/>
             { formik.touched.price && formik.errors && <span> {formik.errors.price} </span>  }
             <button type='submit'> Add </button>
         </form>

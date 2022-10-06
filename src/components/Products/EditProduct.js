@@ -9,22 +9,18 @@ const EditProduct = (props) => {
         <input
           type="text"
           name="name"
-          value={formik.values.name}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
+          {...formik.getFieldProps('name')}
         />
       </td>
       <td>
         <input
           type="text"
           name="price"
-          value={formik.values.price}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
+          {...formik.getFieldProps('price')}
         />
       </td>
       <td>
-        <button type="submit"> Add </button>
+        <button type="submit"> update </button>
         <button onClick={handleCancel}> cancel </button>
       </td>
     </tr>

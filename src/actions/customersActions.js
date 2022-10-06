@@ -62,7 +62,7 @@ export const asyncShowCustDetails = (id) =>{
 
 export const asyncEditCustomer = (custData,handleCancel) => {
     return (dispatch) => {
-        axios.put(`/customers/${custData.id}`,custData,{
+        axios.put(`/customers/${custData._id}`,custData,{
             headers : {Authorization : `Bearer ${localStorage.getItem('token')}`}
         })
         .then((response) => {

@@ -8,7 +8,7 @@ import Pagination from "../Pagination"
 const ProductsContainer = (props) => {
   const [ search, setSearch ] = useState('')
   const [ currentPage, setCurrentPage] = useState(1)
-  const [ productsPerPage, setProducts] = useState(5)
+  const [ productsPerPage ] = useState(10)
   
   useEffect(() => {
     dispatch(asyncGetPorducts());

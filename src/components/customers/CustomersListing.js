@@ -1,9 +1,8 @@
 import React, { useState } from "react";
+import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import {
-  asyncShowCustDetails,
   asyncEditCustomer,
-  asyncRemoveCustomer,
   sortByNameAscending,
   sortByNameDescending,
 } from "../../actions/customersActions";
@@ -11,15 +10,22 @@ import CustomerRowItems from "./CustomerRowItems";
 import EditCustomer from "./EditCustomer";
 
 const CustomersListing = (props) => {
-  const { searchInput,customers } = props;
+  const { searchInput, customers } = props;
   const [sort, setSort] = useState(false);
   const [editCust, setEditCust] = useState("");
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [email, setEmail] = useState("");
 
   const dispatch = useDispatch();
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      mobile: "",
+      email: "",
+    },
+    onSubmit: (formData) => {
+      dispatch(asyncEditCustomer(formData, handleCancel));
+    },
+  });
 
   const handleSortByName = () => {
     let sortName = sort;
@@ -31,49 +37,16 @@ const CustomersListing = (props) => {
     }
   };
 
-  const showCustDetails = (id) => {
-    dispatch(asyncShowCustDetails(id));
-  };
-
-  const handleEditFormChange = (e) => {
-    const attr = e.target.name;
-    if (attr === "name") {
-      setName(e.target.value);
-    } else if (attr === "mobile") {
-      setMobile(e.target.value);
-    } else if (attr === "email") {
-      setEmail(e.target.value);
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = {
-      id,
-      name,
-      mobile,
-      email,
-    };
-    dispatch(asyncEditCustomer(formData, handleCancel));
-  };
-
   const handleEdit = (customer) => {
     setEditCust(customer._id);
-    setId(customer._id);
-    setName(customer.name);
-    setMobile(customer.mobile);
-    setEmail(customer.email);
+    formik.values.name = customer.name;
+    formik.values.mobile = customer.mobile;
+    formik.values.email = customer.email;
+    formik.values._id = customer._id;
   };
 
   const handleCancel = () => {
     setEditCust("");
-  };
-
-  const handleRemove = (id) => {
-    const confirmRemove = window.confirm("Are you sure?");
-    if (confirmRemove) {
-      dispatch(asyncRemoveCustomer(id));
-    }
   };
 
   const filterCustomers = customers.filter((customer) => {
@@ -85,7 +58,7 @@ const CustomersListing = (props) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <table border="1px">
           <thead>
             <tr>
@@ -100,19 +73,11 @@ const CustomersListing = (props) => {
               return (
                 <React.Fragment key={customer._id}>
                   {customer._id === editCust ? (
-                    <EditCustomer
-                      name={name}
-                      mobile={mobile}
-                      email={email}
-                      handleEditFormChange={handleEditFormChange}
-                      handleCancel={handleCancel}
-                    />
+                    <EditCustomer formik={formik} handleCancel={handleCancel} />
                   ) : (
                     <CustomerRowItems
                       customer={customer}
-                      showCustDetails={showCustDetails}
                       handleEdit={handleEdit}
-                      handleRemove={handleRemove}
                     />
                   )}
                 </React.Fragment>
