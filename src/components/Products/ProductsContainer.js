@@ -1,24 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { asyncGetPorducts } from "../../actions/productsActions";
 import AddProducts from "./AddProducts";
 import ProductsList from "./ProductsList";
+import Pagination from "../Pagination"
 
 const ProductsContainer = (props) => {
-  const dispatch = useDispatch();
-
+  const [ search, setSearch ] = useState('')
+  const [ currentPage, setCurrentPage] = useState(1)
+  const [ productsPerPage, setProducts] = useState(5)
+  
   useEffect(() => {
     dispatch(asyncGetPorducts());
   }, []);
 
+  const dispatch = useDispatch();
   const { products } = useSelector((state) => {
     return state
   })
+  const indexOfLastProduct = productsPerPage * currentPage
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage
+  const productsInCurrentPage =  products.data.slice(indexOfFirstProduct,indexOfLastProduct)
+
+  const handleChange = (e) => {
+    setSearch(e.target.value)
+  }
+
+  const handlePagination = (pageNumber) => {setCurrentPage(pageNumber)}
 
   return (
     <div>
       <AddProducts />
-      <ProductsList products = {products.data} />
+      <input type='text' placeholder="search by name" value={search} onChange={handleChange}/>
+      <ProductsList products = {productsInCurrentPage} search={search}/>
+      <Pagination totalItems = {products.data.length} itemsPerPage={productsPerPage} handlePagination={handlePagination}/>
     </div>
   );
 };

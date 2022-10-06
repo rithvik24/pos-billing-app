@@ -25,6 +25,34 @@ const productsReducers = (state = productsInitialState, action) => {
                 return ele._id !== action.payload._id
             })}
         }
+        case 'A_TO_Z' : {
+            return {...state, data : [...state.data.sort((a,b) => {
+                if(a.name.toLowerCase() > b.name.toLowerCase()){
+                    return 1
+                }else{
+                    return -1
+                }
+            })]}
+        }
+        case 'Z_TO_A' : {
+            return {...state, data : [...state.data.sort((a,b) => {
+                if(a.name.toLowerCase() < b.name.toLowerCase()){
+                    return 1
+                }else{
+                    return -1
+                }
+            })]}
+        }
+        case 'LOW_TO_HIGH' : {
+            return {...state, data : [...state.data.sort((a,b) => {
+                return a.price - b.price
+            })]}
+        }
+        case 'HIGH_TO_LOW' : {
+            return {...state , data : [...state.data.sort((a,b) => {
+                return b.price - a.price
+            })]}
+        }
         default : {
             return {...state}
         }

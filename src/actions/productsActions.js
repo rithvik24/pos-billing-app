@@ -113,3 +113,27 @@ export const removeProduct = (result) => {
         payload : result
     }
 }
+
+export const sortByNameAtoZ = () => {
+    return {
+        type : 'A_TO_Z'
+    }
+}
+
+export const sortByNameZtoA = () => {
+    return {
+        type : 'Z_TO_A'
+    }
+}
+
+export const sortByPriceLowtoHigh = () => {
+    return {
+        type : 'LOW_TO_HIGH'
+    }
+}
+
+export const sortByPriceHighToLow = () => {
+    return {
+        type : 'HIGH_TO_LOW'
+    }
+}
