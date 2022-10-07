@@ -7,7 +7,7 @@ const Account = (props) => {
 
     useEffect(() => {
         dispatch(asyncGetUser())
-    },[])
+    },[dispatch])
 
     const { user } = useSelector((state) => {
         return state

@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Link, Route, withRouter} from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import Home from './Home'
 import Register from './Register'
 import Login from './Login'
@@ -8,6 +8,8 @@ import Account from './Account'
 import { logoutUser } from '../../actions/userActions'
 import CustomersContainer from '../customers/CustomersContainer'
 import ProductsContainer from '../Products/ProductsContainer'
+import BillsContainer from '../bills/BillsContainer'
+
 
 const Navbar = (props) => {
   const [ isLoggedIn, setIsLoggedIn] = useState(false)
@@ -18,7 +20,7 @@ const Navbar = (props) => {
       setIsLoggedIn(true)
     }
   },[])
-  
+
   const handleAfterLogOut = () => {
     localStorage.removeItem('token')
     props.history.push('/')
@@ -46,6 +48,7 @@ const Navbar = (props) => {
             <Link to = '/account'> Account </Link>
             <Link to='/customers'> Customers </Link>
             <Link to='/products'> Products </Link>
+            <Link to='/billing'> Billing </Link>
             <Link to = {`${props.location.pathname}`} onClick={handleLogout}> Logout </Link>
           </>
         ) : (
@@ -64,6 +67,7 @@ const Navbar = (props) => {
       <Route path='/account' component={Account} exact={true}/>
       <Route path='/customers' component={CustomersContainer}/>
       <Route path='/products' component={ProductsContainer} />
+      <Route path='/billing' component={BillsContainer} />
     </div> 
   )
 }

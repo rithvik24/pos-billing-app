@@ -10,11 +10,11 @@ const ProductsContainer = (props) => {
   const [ currentPage, setCurrentPage] = useState(1)
   const [ productsPerPage ] = useState(10)
   
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(asyncGetPorducts());
-  }, []);
+  }, [dispatch]);
 
-  const dispatch = useDispatch();
   const { products } = useSelector((state) => {
     return state
   })

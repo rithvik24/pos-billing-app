@@ -25,7 +25,7 @@ const CustomersContainer = (props) => {
 
   useEffect(() => {
     dispatch(asyncGetCustomers());
-  }, []);
+  }, [dispatch]);
   
 
   const handleChange = (e) => {
