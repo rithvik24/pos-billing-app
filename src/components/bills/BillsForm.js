@@ -4,12 +4,10 @@ import { useFormik } from 'formik'
 import { asyncGetCustomers } from '../../actions/customersActions'
 import { asyncGetPorducts } from '../../actions/productsActions'
 
-
-
 const BillsForm = (props) => {
+  const { generateBill } = props
   const [ lineItems , setLineItems] = useState([{ product : '',quantity : '' }])
   const [customer , setCustomer] = useState('')
-  const [product , setProduct] = useState('')
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -22,7 +20,6 @@ const BillsForm = (props) => {
   })
 
   const handleLineItems = (e,index) => {
-    console.log(e.target.name)
     const newLineItems = [...lineItems]
     newLineItems[index][e.target.name] = e.target.value
     setLineItems(newLineItems)
@@ -50,9 +47,11 @@ const BillsForm = (props) => {
       customer,
       lineItems
     }
-    console.log(formData)
+    generateBill(formData)
+    setLineItems([{product : '' , quantity : ''}])
+    setCustomer('')
   }
-  
+
   return (
     <div>
       <form onSubmit = {handleSubmit}>
@@ -81,15 +80,14 @@ const BillsForm = (props) => {
                   }
                 </select>
 
-                <input type='number' name='quantity' value={lineItem.quantity} onChange = {(e) => handleLineItems(e,i)}/>
-
+                <input type='number' min='1' name='quantity' value={lineItem.quantity} onChange = {(e) => handleLineItems(e,i)}/>
                 <button type='button' onClick={ () => handleAdd(i) }>add</button>
                 <button type='button' onClick={ () =>  handleRemove(i)}>remove</button>
               </div>
             )
           })
         }
-        <button>submit</button>
+        <button type='submit'>submit</button>
       </form>      
     </div>
   )
