@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Link, Route, withRouter} from 'react-router-dom'
-import { useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Home from './Home'
 import Register from './Register'
 import Login from './Login'
@@ -9,6 +9,7 @@ import { logoutUser } from '../../actions/userActions'
 import CustomersContainer from '../customers/CustomersContainer'
 import ProductsContainer from '../Products/ProductsContainer'
 import BillsContainer from '../bills/BillsContainer'
+import ShowBill from '../bills/ShowBill'
 
 
 const Navbar = (props) => {
@@ -67,7 +68,8 @@ const Navbar = (props) => {
       <Route path='/account' component={Account} exact={true}/>
       <Route path='/customers' component={CustomersContainer}/>
       <Route path='/products' component={ProductsContainer} />
-      <Route path='/billing' component={BillsContainer} />
+      <Route path='/billing' component={BillsContainer} exact={true}/>
+      <Route path ='/billing/:id' component={ShowBill}/>
     </div> 
   )
 }
