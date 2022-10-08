@@ -1,8 +1,11 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { asyncRemoveBill } from '../../actions/billsActions'
 
 const BillsList = (props) => {
-    const { bills, customers } = props
+    const { bills, customers} = props
+    const dispatch = useDispatch()
 
     const findCustmoer = (id) => {
         const result = customers.find((cust) => {
@@ -13,6 +16,14 @@ const BillsList = (props) => {
         }
     }
     
+    const handleRemove = (id) => {
+        const confirmRemove = window.confirm('Are you sure?')
+        if(confirmRemove){
+            dispatch(asyncRemoveBill(id))
+        }
+    }
+
+
   return (
     <div>
         <h2> Bills List </h2>
@@ -35,7 +46,7 @@ const BillsList = (props) => {
                                 <td> {bill.total} </td>
                                 <td> 
                                     <Link to={`/billing/${bill._id}`}>view</Link>
-                                    <button> delete </button>    
+                                    <button onClick={() => handleRemove(bill._id)}> delete </button>    
                                 </td>
                             </tr>
                         )

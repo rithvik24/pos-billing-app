@@ -87,7 +87,7 @@ const ShowBill = (props) => {
       <div>
         <Link to='/billing'>Back</Link>
         <ReactToPrint
-        trigger={() => <button> print </button> }
+        trigger={() => <button>print</button> }
         content = { () => componentRef.current}
         />
       </div>

@@ -10,6 +10,7 @@ import CustomersContainer from '../customers/CustomersContainer'
 import ProductsContainer from '../Products/ProductsContainer'
 import BillsContainer from '../bills/BillsContainer'
 import ShowBill from '../bills/ShowBill'
+import PrivateRoute from '../../helpers/PrivateRoute'
 
 
 const Navbar = (props) => {
@@ -65,11 +66,11 @@ const Navbar = (props) => {
       <Route path='/login' render={ (props) => {
         return <Login {...props} handleIsLoggedIn = {handleIsLoggedIn}/>
       }}/>
-      <Route path='/account' component={Account} exact={true}/>
-      <Route path='/customers' component={CustomersContainer}/>
-      <Route path='/products' component={ProductsContainer} />
-      <Route path='/billing' component={BillsContainer} exact={true}/>
-      <Route path ='/billing/:id' component={ShowBill}/>
+      <PrivateRoute path='/account' component={Account} exact={true}/>
+      <PrivateRoute path='/customers' component={CustomersContainer}/>
+      <PrivateRoute path='/products' component={ProductsContainer} />
+      <PrivateRoute path='/billing' component={BillsContainer} exact={true}/>
+      <PrivateRoute path ='/billing/:id' component={ShowBill}/>
     </div> 
   )
 }

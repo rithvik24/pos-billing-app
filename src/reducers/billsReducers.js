@@ -11,6 +11,11 @@ const billsReducers = (state=billsInitialState, action) => {
         case 'GENERATE_BILL' : {
             return { ...state , data : [ {...action.payload}, ...state.data] }
         }
+        case 'REMOVE_BILL' : {
+            return { ...state, data : state.data.filter((ele) => {
+                return ele._id !== action.payload._id
+            })}
+        }
         default : {
             return {...state}
         }
