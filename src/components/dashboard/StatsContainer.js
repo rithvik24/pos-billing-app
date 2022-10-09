@@ -24,10 +24,6 @@ const StatsContainer = () => {
         return state
     })
 
-    const todaysIncome = () => {
-        return getTodaysIncome(bills.data)
-    }
-
   return (
     <div>
         <h3> Dashboard </h3>
@@ -35,7 +31,7 @@ const StatsContainer = () => {
         <StatsItem data={products.data} text = {'Total Products'}/>
         <StatsItem data={bills.data} text = {'Total Bills'}/>
 
-        <TodaysIncome data = {todaysIncome()}/>
+        <TodaysIncome data = {getTodaysIncome(bills.data)}/>
 
         <RecentCustomers data = {customers.data.slice(0,5)}/>
         <RecentProducts data = {products.data.slice(0,5)}/>
