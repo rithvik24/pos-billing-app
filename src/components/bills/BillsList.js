@@ -2,19 +2,11 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { asyncRemoveBill } from '../../actions/billsActions'
+import { findCustomer } from "../../helpers/helperFunctions";
 
 const BillsList = (props) => {
     const { bills, customers} = props
     const dispatch = useDispatch()
-
-    const findCustmoer = (id) => {
-        const result = customers.find((cust) => {
-            return cust._id === id
-        })
-        if(result) {
-            return result.name
-        }
-    }
     
     const handleRemove = (id) => {
         const confirmRemove = window.confirm('Are you sure?')
@@ -22,7 +14,6 @@ const BillsList = (props) => {
             dispatch(asyncRemoveBill(id))
         }
     }
-
 
   return (
     <div>
@@ -41,7 +32,7 @@ const BillsList = (props) => {
                     bills.map((bill) => {
                         return (
                             <tr key={bill._id}>
-                                <td> {findCustmoer(bill.customer)} </td>
+                                <td> {findCustomer(bill.customer,customers)} </td>
                                 <td> {bill.createdAt.slice(0,10)} </td>
                                 <td> {bill.total} </td>
                                 <td> 

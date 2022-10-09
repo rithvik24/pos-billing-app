@@ -1,7 +1,6 @@
 import axios from '../configureAxios/axios'
 
-export const asyncGetBills = (helo) => {
-    console.log(helo)
+export const asyncGetBills = () => {
     return (dipatch) => {
         axios.get('/bills',{
             headers : {Authorization : `Bearer ${localStorage.getItem('token')}`}
