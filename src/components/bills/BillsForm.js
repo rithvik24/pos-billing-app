@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { format } from 'date-fns'
+import {
+  Box,
+  MenuItem,
+  Paper,
+  TextField,
+  Typography,
+  IconButton,
+  Button,
+  Tooltip
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import ClearIcon from "@mui/icons-material/Clear";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { format } from "date-fns";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -21,7 +34,7 @@ const BillsForm = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      date : format(new Date(), 'yyyy/MM/dd'),
+      date: format(new Date(), "yyyy/MM/dd"),
       customer: "",
     },
     onSubmit: (formData) => {
@@ -57,77 +70,136 @@ const BillsForm = (props) => {
   };
 
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
-        <select name="customer" {...formik.getFieldProps("customer")}>
-          <option value=""> select customer </option>
+    <Box
+      component={Paper}
+      sx={{
+        width: "500px",
+        height: "350px",
+        bgcolor: "#e0f2f1",
+        padding: "15px 30px 0px 30px",
+        overflowY: "scroll",
+      }}
+    >
+      <Typography
+        sx={{ marginLeft: "15px", marginTop: "10px" }}
+        variant="h4"
+        component="h1"
+      >
+        Add Items
+      </Typography>
+      <Box
+        sx={{ marginLeft: "15px", marginTop: "10px" }}
+        component="form"
+        onSubmit={formik.handleSubmit}
+      >
+        <TextField
+          {...formik.getFieldProps("customer")}
+          sx={{ width: "180px" }}
+          select
+          label="select customer"
+          name="customer"
+          error={formik.touched.customer && formik.errors.customer}
+          helperText={formik.touched.customer && formik.errors.customer}
+        >
           {customers.data.map((customer) => {
             return (
-              <option key={customer._id} value={customer._id}>
+              <MenuItem key={customer._id} value={customer._id}>
                 {customer.name}
-              </option>
+              </MenuItem>
             );
           })}
-        </select>
-        {formik.errors && formik.touched && (
-          <span> {formik.errors.customer} </span>
-        )}
-        <br />
+        </TextField>
+
         {lineItems.map((lineItem, i) => {
           return (
             <div key={i}>
-              <select
+              <TextField
+                sx={{ width: "180px", marginTop: "12px" }}
+                select
+                label="select products"
                 name="product"
                 value={lineItem.product}
                 onChange={(e) => {
                   handleChange(e, i);
                 }}
               >
-                <option value=""> select product </option>
                 {products.data.map((product) => {
                   return (
-                    <option key={product._id} value={product._id}>
+                    <MenuItem key={product._id} value={product._id}>
                       {product.name}
-                    </option>
+                    </MenuItem>
                   );
                 })}
-              </select>
-              <input
+              </TextField>
+              <TextField
+                sx={{ width: "100px", marginTop: "12px", marginLeft: "12px" }}
                 type="number"
-                min="1"
-                max="50"
+                inputProps={{ min: 1, max: 100 }}
                 name="quantity"
                 value={lineItem.quantity}
                 onChange={(e) => {
                   handleChange(e, i);
                 }}
               />
+              <Tooltip title="add" placement="bottom" arrow>
+                <IconButton
+                  sx={{ marginTop: "8px", marginLeft: "4px", color: "#00b8d4" }}
+                  type="button"
+                  onClick={handleAdd}
+                >
+                  <AddIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
               {lineItems.length === 1 ? (
-                <>
-                  <button type="button" onClick={handleAdd}>
-                    add
-                  </button>
-                  <button type="button" onClick={handleFormReset}>
-                    clear
-                  </button>
-                </>
+                <Tooltip title="clear" arrow>
+                  <IconButton
+                    sx={{
+                      marginTop: "8px",
+                      marginLeft: "4px",
+                      color: "#00b8d4",
+                    }}
+                    type="button"
+                    onClick={handleFormReset}
+                  >
+                    <ClearIcon fontSize="large" />
+                  </IconButton>
+                </Tooltip>
               ) : (
-                <>
-                  <button type="button" onClick={handleAdd}>
-                    add
-                  </button>
-                  <button type="button" onClick={() => handleRemove(i)}>
-                    remove
-                  </button>
-                </>
+                <Tooltip title="delete" arrow>
+                  <IconButton
+                    sx={{
+                      marginTop: "8px",
+                      marginLeft: "4px",
+                      color: "#ff5252",
+                    }}
+                    variant="contained"
+                    size="small"
+                    type="button"
+                    onClick={() => handleRemove(i)}
+                  >
+                    <DeleteIcon fontSize="large" />
+                  </IconButton>
+                </Tooltip>
               )}
             </div>
           );
         })}
-        <br />
-        <button type="submit">Generate Bill</button>
-      </form>
-    </div>
+        <Button
+          sx={{
+            bgcolor: "#00b8d4",
+            textTransform: "inherit",
+            marginTop: "10px",
+            "&:hover": {
+              bgcolor: "#40c4ff",
+            },
+          }}
+          variant="contained"
+          type="submit"
+        >
+          Generate Bill
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

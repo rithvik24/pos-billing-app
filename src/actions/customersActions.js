@@ -23,6 +23,7 @@ export const asyncAddCustomer = (formData,handleAfterAddCust) => {
         })
         .then((response) => {
             const result = response.data
+            console.log(result)
             if(result.hasOwnProperty('errors')){
                 alert(result.message)
             }else{

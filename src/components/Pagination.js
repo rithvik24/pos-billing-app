@@ -1,27 +1,25 @@
-import React from 'react'
+import React from "react";
+import "../App.css";
 
 const Pagination = (props) => {
-    const { totalItems, itemsPerPage, handlePagination } = props
+  const { totalItems, itemsPerPage, handlePagination} = props;
 
-    const pageNumbers = []
-    for(let i=1; i<=Math.ceil(totalItems/itemsPerPage); i++){
-        pageNumbers.push(i)
-    }
-    
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
-    <div>
-        <span>Page </span>
+    <ul className="paginationContainer">
         {
-            pageNumbers.map((pageNumber) => {
+            pageNumbers.map((ele,i) => {
                 return (
-                    <span key={pageNumber} onClick = {() => {
-                        handlePagination(pageNumber)
-                    }}>{pageNumber} </span>
+                    <li className='paginationItem' key={i} onClick={() => {handlePagination(ele)}}>{ele}</li>
                 )
             })
         }
-    </div>
-  )
-}
+    </ul>
+  );
+};
 
-export default Pagination
+export default Pagination;

@@ -1,9 +1,11 @@
 import React from "react";
+import { TableCell, TableRow, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import {
   asyncShowCustDetails,
   asyncRemoveCustomer,
 } from "../../actions/customersActions";
+import { customerActionsBtn } from "../../helpers/styleHelpers";
 
 const CustomerRowItems = (props) => {
   const { customer, handleEdit } = props;
@@ -21,22 +23,47 @@ const CustomerRowItems = (props) => {
   };
 
   return (
-    <tr>
-      <td> {customer.name} </td>
-      <td> {customer.mobile} </td>
-      <td> {customer.email ? customer.email : "N/A"} </td>
-      <td>
-        <button type="button" onClick={showCustDetails}>
-          details
-        </button>
-        <button type="button" onClick={() => handleEdit(customer)}>
-          edit
-        </button>
-        <button type="button" onClick={handleRemove}>
-          remove
-        </button>
-      </td>
-    </tr>
+    <TableRow hover role="checkbox">
+      <TableCell> {customer.name} </TableCell>
+      <TableCell> {customer.mobile} </TableCell>
+      <TableCell> {customer.email ? customer.email : "N/A"} </TableCell>
+      <TableCell>
+        <Button
+          sx={customerActionsBtn}
+          size="small"
+          variant="outlined"
+          type="button"
+          onClick={showCustDetails}
+        >
+          Details
+        </Button>
+        <Button
+          sx={customerActionsBtn}
+          size="small"
+          variant="outlined"
+          type="button"
+          onClick={() => handleEdit(customer)}
+        >
+          Edit
+        </Button>
+        <Button
+          sx={{
+            ...customerActionsBtn, 
+            color : '#ff5252', 
+            borderColor : '#ff5252',
+            '&:hover' : {
+              borderColor : '#ff5252',
+            }
+          }}
+          size="small"
+          variant="outlined"
+          type="button"
+          onClick={handleRemove}
+        >
+          Remove
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 };
 

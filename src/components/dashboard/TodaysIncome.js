@@ -1,4 +1,5 @@
 import React from 'react'
+import { Card, CardContent,Typography} from '@mui/material'
 
 const TodaysIncome = (props) => {
     const { data } = props
@@ -11,11 +12,14 @@ const TodaysIncome = (props) => {
     }
     
   return (
-    <div>
-        <h4> Todays Income </h4>
-        <p> {todaysIncome()} ₹ </p>
-    </div>
+    <Card sx = {{textAlign : 'center',width : '300px'}}>
+        <CardContent>
+          <Typography  variant='h4' component='h1'> Todays Income </Typography> 
+        </CardContent>
+        <CardContent sx={{bgcolor:'#e0f2f1'}}>
+          <Typography  variant='h4' component='h1'> {todaysIncome()} ₹  </Typography> 
+        </CardContent>
+    </Card>
   )
 }
-
 export default TodaysIncome

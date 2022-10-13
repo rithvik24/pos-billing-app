@@ -19,16 +19,15 @@ const Home = (props) => {
     <>
         {
           localStorage.getItem('token') ? (
-            <div>
+            <>
               {
                 user.data.username && (
                   <>
-                    <h2>  Welcome {user.data.username[0].toUpperCase() + user.data.username.slice(1).toLowerCase()} </h2>
                     <StatsContainer/>
                   </>
                 )
               }
-            </div>
+            </>
           ) : (
             <div>
               <h2> Login to use all the features</h2>

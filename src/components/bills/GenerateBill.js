@@ -10,9 +10,9 @@ const GenerateBill = () => {
   }
 
   return (
-    <div>
+    <>
         <BillsForm generateBill={generateBill}/>
-    </div>
+    </>
   )
 }
 

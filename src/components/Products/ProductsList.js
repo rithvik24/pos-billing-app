@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { TableContainer,Table, TableHead, Paper, TableRow, TableCell, TableBody } from '@mui/material'
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { asyncEditProduct, sortByNameAtoZ, sortByNameZtoA,  sortByPriceLowtoHigh, sortByPriceHighToLow} from "../../actions/productsActions";
@@ -6,6 +7,7 @@ import ProductRowItem from "./ProductRowItem";
 import EditProduct from "./EditProduct";
 
 const ProductsList = (props) => {
+  const [open, setOpen] = useState(false)
   const [sortByName, setSortByName] = useState(false)
   const [sortByPrice, setSortByPrice] = useState(false)
   const [custIdEdit, setCustIdEdit] = useState('')
@@ -13,13 +15,24 @@ const ProductsList = (props) => {
 
   const dispatch = useDispatch();
 
+  const handleOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const passHandleClose = (handleClose) => {
+      handleClose()
+  }
+
   const formik = useFormik({
     initialValues: {
       name: "",
       price: "",
     },
     onSubmit: (values) => {
-      dispatch(asyncEditProduct(values,handleCancel));
+      dispatch(asyncEditProduct(values,handleCancel,passHandleClose));
     },
   });
 
@@ -58,41 +71,45 @@ const ProductsList = (props) => {
   }
 
   return (
-    <div>
       <form onSubmit={formik.handleSubmit}>
-        <table border="1px">
-          <thead>
-            <tr>
-              <th onClick={handleSortByName}> Name </th>
-              <th onClick={handleSortByPrice}> Price </th>
-              <th> Actions </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredProducts.map((product) => {
-              return (
-                <React.Fragment key={product._id}>
-                    {
-                        product._id === custIdEdit ? (
-                                <EditProduct
-                                formik={formik}
-                                handleCancel = {handleCancel}
-                                />
-                        ) : (
-                                <ProductRowItem
-                                product={product}
-                                handleEdit={handleEdit}
-                                />
-                        )
-                    }
-                </React.Fragment>
-              );
-            })}
-          </tbody>
-        </table>
+        <TableContainer component={Paper} sx={{ width: "650px" }}>
+          <Table>
+            <TableHead sx={{bgcolor: '#e0f2f1'}}>
+              <TableRow>
+                <TableCell onClick={handleSortByName}> Name </TableCell>
+                <TableCell onClick={handleSortByPrice}> Price </TableCell>
+                <TableCell> Actions </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredProducts.map((product) => {
+                return (
+                  <React.Fragment key={product._id}>
+                      {
+                          product._id === custIdEdit ? (
+                                  <EditProduct
+                                  open={open}
+                                  handleOpen={handleOpen}
+                                  handleClose={handleClose}
+                                  formik={formik}
+                                  handleCancel = {handleCancel}
+                                  passHandleClose={passHandleClose}
+                                  />
+                          ) : (
+                                  <ProductRowItem
+                                  handleOpen={handleOpen}
+                                  product={product}
+                                  handleEdit={handleEdit}
+                                  />
+                          )
+                      }
+                  </React.Fragment>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </form>
-    </div>
   );
 };
 

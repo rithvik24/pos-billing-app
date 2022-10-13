@@ -1,4 +1,6 @@
 import React, { useEffect,useState } from "react";
+import { Box,TextField } from '@mui/material'
+import Grid2  from '@mui/material/Unstable_Grid2'
 import { useDispatch,useSelector } from "react-redux";
 import { asyncGetPorducts } from "../../actions/productsActions";
 import AddProducts from "./AddProducts";
@@ -29,12 +31,20 @@ const ProductsContainer = (props) => {
   const handlePagination = (pageNumber) => {setCurrentPage(pageNumber)}
 
   return (
-    <div>
-      <AddProducts />
-      <input type='text' placeholder="search by name" value={search} onChange={handleChange}/>
-      <ProductsList products = {productsInCurrentPage} search={search}/>
-      <Pagination totalItems = {products.data.length} itemsPerPage={productsPerPage} handlePagination={handlePagination}/>
-    </div>
+    <Box mt={'100px'} ml={'85px'}>
+      <Grid2 container spacing={2}>
+        <Grid2 xs={12}>
+          <TextField sx={{width:'312px'}} type='text' placeholder="search by name" value={search} onChange={handleChange}/>
+        </Grid2>
+        <Grid2 xs={6}>
+          <ProductsList products = {productsInCurrentPage} search={search}/>
+          <Pagination totalItems = {products.data.length} itemsPerPage={productsPerPage} handlePagination={handlePagination}/>
+        </Grid2>
+        <Grid2 xs={6}>
+          <AddProducts />
+        </Grid2>
+      </Grid2>
+    </Box>
   );
 };
 

@@ -1,32 +1,35 @@
 import React from "react";
+import { styled,Typography, TableContainer,Paper,Table,TableHead,TableBody,TableRow,TableCell} from "@mui/material";
 import { findCustomer } from "../../helpers/helperFunctions";
 
 const RecentBills = ({ data,customers }) => {
 
   return (
-    <div>
-      <h4> Recent Bills</h4>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Customer</th>
-            <th>Amount (₹)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((ele, i) => {
-            return (
-              <tr key={ele._id}>
-                <td> {i + 1} </td>
-                <td> {findCustomer(ele.customer,customers)} </td>
-                <td> {ele.total} </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <>
+      <Typography mb={'15px'} variant='h5' component='h1'> Recent Bills </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead sx={{bgcolor: '#e0f2f1'}}>
+            <TableRow>
+              <TableCell>#</TableCell>
+              <TableCell>Customer</TableCell>
+              <TableCell>Amount (₹)</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((ele, i) => {
+              return (
+                <TableRow key={ele._id} hover role="checkbox">
+                  <TableCell> {i + 1} </TableCell>
+                  <TableCell> {findCustomer(ele.customer,customers)} </TableCell>
+                  <TableCell> {ele.total} </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 

@@ -1,78 +1,171 @@
-import React,{useState,useEffect} from 'react'
-import { Link, Route, withRouter} from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import Home from './Home'
-import Register from './Register'
-import Login from './Login'
-import Account from './Account'
-import { logoutUser } from '../../actions/userActions'
-import CustomersContainer from '../customers/CustomersContainer'
-import ProductsContainer from '../Products/ProductsContainer'
-import BillsContainer from '../bills/BillsContainer'
-import ShowBill from '../bills/ShowBill'
-import PrivateRoute from '../../helpers/PrivateRoute'
-
+import React, { useState, useEffect } from "react";
+import {AppBar,Toolbar,Button,Typography,IconButton,useScrollTrigger,Slide} from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Link, Route, withRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import "../../App.css";
+import Home from "./Home";
+import Register from "./Register";
+import Login from "./Login";
+import Account from "./Account";
+import { logoutUser } from "../../actions/userActions";
+import CustomersContainer from "../customers/CustomersContainer";
+import ProductsContainer from "../Products/ProductsContainer";
+import BillsContainer from "../bills/BillsContainer";
+import ShowBill from "../bills/ShowBill";
+import PrivateRoute from "../../helpers/PrivateRoute";
+import { navBarLinkBtn, navBarTypoGraphy } from "../../helpers/styleHelpers";
 
 const Navbar = (props) => {
-  const [ isLoggedIn, setIsLoggedIn] = useState(false)
-  const dispatch = useDispatch()
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+
+  function HideOnScroll(props) {
+    const { children, window } = props;
+
+    const trigger = useScrollTrigger({
+      target: window ? window() : undefined,
+    });
+    return (
+      <Slide appear={false} direction="down" in={!trigger}>
+        {children}
+      </Slide>
+    );
+  }
 
   useEffect(() => {
-    if(localStorage.getItem('token')){
-      setIsLoggedIn(true)
+    if (localStorage.getItem("token")) {
+      setIsLoggedIn(true);
     }
-  },[])
+  }, []);
 
   const handleAfterLogOut = () => {
-    localStorage.removeItem('token')
-    props.history.push('/')
-    handleIsLoggedIn()
-  }
+    localStorage.removeItem("token");
+    props.history.push("/");
+    handleIsLoggedIn();
+  };
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm('Are you sure?')
-    if(confirmLogout){
-      dispatch(logoutUser(handleAfterLogOut))
+    const confirmLogout = window.confirm("Are you sure?");
+    if (confirmLogout) {
+      dispatch(logoutUser(handleAfterLogOut));
     }
-  }
+  };
 
   const handleIsLoggedIn = () => {
-    setIsLoggedIn(!isLoggedIn)
-  }
-  
+    setIsLoggedIn(!isLoggedIn);
+  };
 
   return (
-    <div>
-      <Link to = '/'> Home </Link>      
-      {
-        isLoggedIn ? (
-          <>
-            <Link to = '/account'> Account </Link>
-            <Link to='/customers'> Customers </Link>
-            <Link to='/products'> Products </Link>
-            <Link to='/billing'> Billing </Link>
-            <Link to = {`${props.location.pathname}`} onClick={handleLogout}> Logout </Link>
-          </>
-        ) : (
-          <>
-            <Link to = '/register'> Register </Link>      
-            <Link to = '/login'> Login </Link>      
-          </>
-        )
-      }
+    <>
+      <HideOnScroll {...props}>
+        <AppBar
+          sx={{
+            backgroundColor: "#00b8d4",
+            height: "75px",
+            justifyContent: "center",
+          }}
+        >
+          <Toolbar>
+            <Button
+              variant="text"
+              sx={{ ...navBarLinkBtn, marginRight: "30px", left: "90px"}}
+            >
+              <Link className="link" to="/">
+                <Typography variant='h1' sx = {navBarTypoGraphy}>
+                  Home
+                </Typography>
+              </Link>
+            </Button>
+            {isLoggedIn ? (
+              <>
+                <IconButton
+                  variant="text"
+                  sx={{ color: "black", marginRight: "30px", right: "110px" }}
+                >
+                  <Link id="textColor" className="link" to="/account">
+                    <AccountCircleIcon sx={{ fontSize: "2.5rem", color: "black" }}/>
+                  </Link>
+                </IconButton>
+                <Button
+                  variant="text"
+                  sx={{...navBarLinkBtn,marginRight: "30px"}}
+                >
+                  <Link className="link" to="/customers">
+                    <Typography variant='h1' sx = {navBarTypoGraphy}>
+                    Customers
+                    </Typography>
+                  </Link>
+                </Button>
+                <Button
+                  variant="text"
+                  sx={{...navBarLinkBtn,marginRight: "30px"}}
+                >
+                  <Link className="link" to="/products">
+                    <Typography variant='h1' sx = {navBarTypoGraphy}>
+                      Products
+                    </Typography>
+                  </Link>
+                </Button>
+                <Button
+                  variant="text"
+                  sx={{...navBarLinkBtn, marginRight: "30px"}}
+                >
+                  <Link className="link" to="/billing">
+                    <Typography variant='h1' sx = {navBarTypoGraphy}>
+                      Billing
+                    </Typography>
+                  </Link>
+                </Button>
+                <Button variant="text" sx={{...navBarLinkBtn,left: "690px"}}>
+                  <Link
+                    className="link"
+                    to={`${props.location.pathname}`}
+                    onClick={handleLogout}
+                  >
+                    <Typography variant='h1' sx = {navBarTypoGraphy}>
+                      Logout
+                    </Typography>
+                  </Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="text" sx={{...navBarLinkBtn,left: "80px"}}>
+                  <Link className="link" to="/register">
+                  <Typography variant='h1' sx = {navBarTypoGraphy}>
+                    Register
+                  </Typography>
+                  </Link>
+                </Button>
+                <Button variant="text" sx={{...navBarLinkBtn,left: "100px"}}>
+                  <Link className="link" to="/login">
+                  <Typography variant='h1' sx = {navBarTypoGraphy}>
+                      Login
+                  </Typography>
+                  </Link>
+                </Button>
+              </>
+            )}
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
 
-      <Route path='/' component={Home} exact={true}/>
-      <Route path='/register' component={Register}/>
-      <Route path='/login' render={ (props) => {
-        return <Login {...props} handleIsLoggedIn = {handleIsLoggedIn}/>
-      }}/>
-      <PrivateRoute path='/account' component={Account} exact={true}/>
-      <PrivateRoute path='/customers' component={CustomersContainer}/>
-      <PrivateRoute path='/products' component={ProductsContainer} />
-      <PrivateRoute path='/billing' component={BillsContainer} exact={true}/>
-      <PrivateRoute path ='/billing/:id' component={ShowBill}/>
-    </div> 
-  )
-}
+      <Route path="/" component={Home} exact={true} />
+      <Route path="/register" component={Register} />
+      <Route
+        path="/login"
+        render={(props) => {
+          return <Login {...props} handleIsLoggedIn={handleIsLoggedIn} />;
+        }}
+      />
+      <PrivateRoute path="/account" component={Account} exact={true} />
+      <PrivateRoute path="/customers" component={CustomersContainer} />
+      <PrivateRoute path="/products" component={ProductsContainer} />
+      <PrivateRoute path="/billing" component={BillsContainer} exact={true} />
+      <PrivateRoute path="/billing/:id" component={ShowBill} />
+    </>
+  );
+};
 
-export default withRouter(Navbar)
+export default withRouter(Navbar);

@@ -1,8 +1,15 @@
 import React from "react";
 import { Chart } from "react-google-charts";
+import getIncomesByDay from "../../selectors/getIncomesByDay";
 
 const Graph = ({bills}) => {
-
+    
+    const options = {
+        title : 'Last 7 days income',
+        hAxis: { title: "Days"},
+        vAxis: { title: "Income"},
+        legend : 'none'
+    }
     const getDateFormat = (n) => {
         const today = new Date()
         const year = today.toLocaleString('default',{year:'numeric'})
@@ -16,41 +23,29 @@ const Graph = ({bills}) => {
         }
     }
 
-    const filterBillDay = (date) => {
-        const result = bills.filter((ele) => {
-            if(ele.createdAt.slice(0,10) === date){
-                return ele
-            }
-        })
-        return result
+    const getDatesArr = (dateFormat) => {
+        const date = []
+        for(let i=0; i<7; i++){
+            date.push(dateFormat(i))
+        }
+        return date
     }
+    const datesArray = getDatesArr(getDateFormat).reverse()
 
-    const filterBillByToday = filterBillDay(getDateFormat(0))
-    const filterBillByToday_Minus_one = filterBillDay(getDateFormat(1))
-    const filterBillByToday_Minus_two = filterBillDay(getDateFormat(2))
-    const filterBillByToday_Minus_three = filterBillDay(getDateFormat(3))
-    const filterBillByToday_Minus_four = filterBillDay(getDateFormat(4))
-
-    const totalIncomeDayWise = (filteredData) => {
-        const result = filteredData.reduce((previousValue, currentValue) => {
-            return previousValue + currentValue.total
-        },0)
-        return result
-    }
-    
     const data = [
-        ["Day", "Sales"],
-        [getDateFormat(6), totalIncomeDayWise(filterBillByToday_Minus_four)],
-        [getDateFormat(5), totalIncomeDayWise(filterBillByToday_Minus_four)],
-        [getDateFormat(4), totalIncomeDayWise(filterBillByToday_Minus_four)],
-        [getDateFormat(3), totalIncomeDayWise(filterBillByToday_Minus_three)], 
-        [getDateFormat(2), totalIncomeDayWise(filterBillByToday_Minus_two)],
-        [getDateFormat(1),totalIncomeDayWise(filterBillByToday_Minus_one)], 
-        [getDateFormat(0), totalIncomeDayWise(filterBillByToday)], 
+        ["Day", "Income ₹" ,{role : 'style'}]
       ];
-
+    
+    datesArray.map((ele) => {
+        return data.push([ele])
+      })
+    
+      getIncomesByDay(bills,getDateFormat).map((ele,i) => {
+        return data[i+1].push(ele, 'color : #00b8d4')
+    })
+    
   return (
-    <Chart chartType="ColumnChart" width="90%" height="400px" data={data} />
+    <Chart chartType="ColumnChart" options={options} width="80%" height="350px" data={data} />
   );
 };
 

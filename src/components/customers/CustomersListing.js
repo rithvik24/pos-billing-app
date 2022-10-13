@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Paper,Table,TableBody,TableCell,TableContainer,TableHead,TableRow} from "@mui/material";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import {
@@ -10,7 +11,7 @@ import CustomerRowItems from "./CustomerRowItems";
 import EditCustomer from "./EditCustomer";
 
 const CustomersListing = (props) => {
-  const { searchInput, customers } = props;
+  const { searchInput, customers,currentPage } = props;
   const [sort, setSort] = useState(false);
   const [editCust, setEditCust] = useState("");
 
@@ -57,18 +58,23 @@ const CustomersListing = (props) => {
   });
 
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
-        <table border="1px">
-          <thead>
-            <tr>
-              <th onClick={handleSortByName}> Name </th>
-              <th> Mobile </th>
-              <th> Email </th>
-              <th> Actions </th>
-            </tr>
-          </thead>
-          <tbody>
+    <form onSubmit={formik.handleSubmit}>
+      <TableContainer component={Paper} sx={{ width: "800px" }}>
+        <Table>
+          <TableHead sx={{bgcolor: '#e0f2f1'}}>
+            <TableRow>
+                <TableCell
+                  sx={{ cursor: "pointer" }}
+                  onClick={handleSortByName}
+                >
+                  Name
+                </TableCell>
+              <TableCell> Mobile </TableCell>
+              <TableCell> Email </TableCell>
+              <TableCell> Actions </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {filterCustomers.map((customer) => {
               return (
                 <React.Fragment key={customer._id}>
@@ -83,10 +89,10 @@ const CustomersListing = (props) => {
                 </React.Fragment>
               );
             })}
-          </tbody>
-        </table>
-      </form>
-    </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </form>
   );
 };
 

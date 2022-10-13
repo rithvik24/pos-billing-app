@@ -1,4 +1,6 @@
 import React,{useEffect} from 'react'
+import { Box } from '@mui/material'
+import Grid2 from '@mui/material/Unstable_Grid2'
 import { useDispatch,useSelector } from 'react-redux'
 import { asyncGetCustomers } from '../../actions/customersActions'
 import { asyncGetPorducts } from '../../actions/productsActions'
@@ -25,17 +27,34 @@ const StatsContainer = () => {
     })
 
   return (
-    <div>
-        <h3> Dashboard </h3>
-        <StatsItem data={customers.data} text = {'Total Customers'}/>
-        <StatsItem data={products.data} text = {'Total Products'}/>
-        <StatsItem data={bills.data} text = {'Total Bills'}/>
-        <TodaysIncome data = {getTodaysIncome(bills.data)}/>
-        <RecentCustomers data = {customers.data.slice(0,5)}/>
-        <RecentProducts data = {products.data.slice(0,5)}/>
-        <RecentBills data = {bills.data.slice(0,5)} customers = {customers.data}/>
-        <Graph bills = {bills.data}/>
-    </div>
+      <Box mt = {'100px'} ml = {'85px'}>
+        <Grid2 container spacing = {4}>
+          <Grid2 ml={'-30px'} xs={3}>
+            <StatsItem data={customers.data} text = {'Total Customers'}/>
+          </Grid2>
+          <Grid2 xs={3}>
+            <StatsItem data={products.data} text = {'Total Products'}/>
+          </Grid2>
+          <Grid2 xs={3}>
+            <StatsItem data={bills.data} text = {'Total Bills'}/>
+          </Grid2>
+          <Grid2 xs={3}>
+            <TodaysIncome data = {getTodaysIncome(bills.data)}/>
+          </Grid2>
+          <Grid2 xs={12} ml={'220px'}>
+              <Graph bills = {bills.data}/>
+          </Grid2>
+          <Grid2 xs={4} ml={'-45px'}>
+            <RecentCustomers data = {customers.data.slice(0,5)}/>
+          </Grid2>
+          <Grid2 xs={4}>
+            <RecentProducts data = {products.data.slice(0,5)}/>
+          </Grid2>
+          <Grid2 xs={4}>
+            <RecentBills data = {bills.data.slice(0,5)} customers = {customers.data}/>
+          </Grid2>
+        </Grid2>
+      </Box>
   )
 }
 
