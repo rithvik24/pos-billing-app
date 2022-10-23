@@ -1,10 +1,7 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import { Box } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2'
-import { useDispatch,useSelector } from 'react-redux'
-import { asyncGetCustomers } from '../../actions/customersActions'
-import { asyncGetPorducts } from '../../actions/productsActions'
-import { asyncGetBills } from '../../actions/billsActions'
+import { useSelector } from 'react-redux'
 import StatsItem from './StatsItem'
 import { getTodaysIncome } from '../../selectors/getTodaysIncome'
 import TodaysIncome from './TodaysIncome'
@@ -14,14 +11,6 @@ import RecentBills from './RecentBills'
 import Graph from './Graph'
 
 const StatsContainer = () => {
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(asyncGetCustomers())
-        dispatch(asyncGetPorducts())
-        dispatch(asyncGetBills())
-    },[dispatch])
-
     const { customers, products, bills } = useSelector((state) => {
         return state
     })

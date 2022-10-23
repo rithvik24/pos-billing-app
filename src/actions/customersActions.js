@@ -1,5 +1,9 @@
-import EditCustomer from '../components/customers/EditCustomer'
 import axios from '../configureAxios/axios'
+import Swal from 'sweetalert2'
+export const ADD_CUSTOMER = 'ADD_CUSTOMER'
+export const GET_CUSTOMERS = 'GET_CUSTOMERS'
+export const EDIT_CUSTOMER = 'EDIT_CUSTOMER'
+export const REMOVE_CUSTOMER = 'REMOVE_CUSTOMER'
 
 export const asyncGetCustomers = () => {
     return (dispatch) => {
@@ -47,7 +51,7 @@ export const asyncShowCustDetails = (id) =>{
             if(result.hasOwnProperty('message')){
                 alert(result.message)
             }else{
-                alert(`
+                Swal.fire(`
                     Name : ${result.name}
                     Mobile : ${result.mobile}
                     Email : ${ result.email ? result.email : 'N/A' }
@@ -93,18 +97,6 @@ export const asyncRemoveCustomer = (id) => {
         .catch((err) => {
             alert(err.message)
         })
-    }
-}
-
-export const sortByNameAscending = () =>{
-    return {
-        type : 'SORT_BY_NAME_ASCENDING'
-    }
-}
-
-export const sortByNameDescending = () =>{
-    return {
-        type : 'SORT_BY_NAME_DESCENDING'
     }
 }
 

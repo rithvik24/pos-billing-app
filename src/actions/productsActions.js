@@ -1,4 +1,9 @@
 import axios from '../configureAxios/axios'
+import Swal from 'sweetalert2'
+export const ADD_PRODUCTS = 'ADD_PRODUCTS'
+export const GET_PRODUCTS = 'GET_PRODUCTS'
+export const EDIT_PRODUCT = 'EDIT_PRODUCTS'
+export const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
 
 export const asyncGetPorducts = () => {
     return (dispatch) => {
@@ -73,9 +78,9 @@ export const asyncShowProductDetails = (id) => {
         })
         .then((response) => {
             const result = response.data
-            alert(`
+            Swal.fire(`
             Product : ${result.name}
-            Price : ${result.price}
+            Price : ₹ ${result.price}
             Created on : ${result.createdAt.slice(0,10)}
             Updated on : ${result.updatedAt.slice(0,10)}
             `)
@@ -111,29 +116,5 @@ export const removeProduct = (result) => {
     return {
         type : 'REMOVE_PRODUCT',
         payload : result
-    }
-}
-
-export const sortByNameAtoZ = () => {
-    return {
-        type : 'A_TO_Z'
-    }
-}
-
-export const sortByNameZtoA = () => {
-    return {
-        type : 'Z_TO_A'
-    }
-}
-
-export const sortByPriceLowtoHigh = () => {
-    return {
-        type : 'LOW_TO_HIGH'
-    }
-}
-
-export const sortByPriceHighToLow = () => {
-    return {
-        type : 'HIGH_TO_LOW'
     }
 }

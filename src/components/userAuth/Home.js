@@ -1,16 +1,8 @@
-import React,{useEffect} from 'react'
-import { useDispatch,useSelector } from 'react-redux'
-import  { asyncGetUser } from '../../actions/userActions'
+import React from 'react'
+import {useSelector } from 'react-redux'
 import StatsContainer from '../dashboard/StatsContainer'
 
 const Home = (props) => {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    if(localStorage.getItem('token')){
-      dispatch(asyncGetUser())
-    }
-  },[dispatch])
-
   const { user } = useSelector((state) => {
     return state
   })
@@ -21,7 +13,13 @@ const Home = (props) => {
           localStorage.getItem('token') ? (
             <>
               {
-                user.data.username && (
+                user.isLoading ? (
+                  <>
+                    <h1 style={{
+                      padding : '300px 200px 200px 710px'
+                    }}> Loading... </h1>
+                  </>
+                ) : (
                   <>
                     <StatsContainer/>
                   </>

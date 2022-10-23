@@ -1,4 +1,8 @@
 import axios from '../configureAxios/axios'
+export const GET_BILLS = 'GET_BILLS'
+export const GENERATE_BILL = 'GENERATE_BILL'
+export const REMOVE_BILL = 'REMOVE_BILL'
+
 
 export const asyncGetBills = () => {
     return (dipatch) => {

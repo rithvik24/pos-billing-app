@@ -1,4 +1,8 @@
 import axios from '../configureAxios/axios'
+import Swal from 'sweetalert2'
+export const GET_USER = 'GET_USER'
+export const LOGOUT_USER = 'LOGOUT_USER'
+export const IS_LOADING = 'IS_LOADING'
 
 export const asyncRegisterUser = (formData,handleAfterRegister) => {
     return (dispatch) => {
@@ -30,7 +34,7 @@ export const asyncLoginUser = (formData,handleAfterLogin) =>{
             if(result.hasOwnProperty('errors')){
                 alert(result.errors)
             }else{
-                alert('successfully logged in')
+                Swal.fire('successfully logged in')
                 console.log(result)
                 localStorage.setItem('token',result.token)
                 handleAfterLogin()
@@ -49,7 +53,8 @@ export const asyncGetUser = () => {
         })
         .then((response) => {
             const result = response.data
-            dispatch(setUser(result))
+            dispatch(getUser(result))
+            dispatch(isLoading())
         })
         .catch((err) => {
             alert(err.message)
@@ -64,9 +69,16 @@ export const logoutUser = (handleAfterLogOut) => {
     }
 }
 
-export const setUser = (result) => {
+export const getUser = (result) => {
     return {
-        type : 'SET_USER',
+        type : 'GET_USER',
         payload : result
+    }
+}
+
+
+export const isLoading = () => {
+    return {
+        type : IS_LOADING
     }
 }

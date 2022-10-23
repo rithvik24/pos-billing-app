@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {AppBar,Toolbar,Button,Typography,IconButton,useScrollTrigger,Slide} from "@mui/material";
+import Swal from 'sweetalert2'
+import {AppBar,Toolbar,Button,Typography,IconButton,useScrollTrigger,Slide,Tooltip} from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link, Route, withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -15,10 +16,16 @@ import BillsContainer from "../bills/BillsContainer";
 import ShowBill from "../bills/ShowBill";
 import PrivateRoute from "../../helpers/PrivateRoute";
 import { navBarLinkBtn, navBarTypoGraphy } from "../../helpers/styleHelpers";
+import { asyncGetUser } from '../../actions/userActions'
+import { asyncGetCustomers } from '../../actions/customersActions'
+import { asyncGetBills } from '../../actions/billsActions'
+import { asyncGetPorducts } from '../../actions/productsActions'
 
 const Navbar = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const dispatch = useDispatch();
+
+  const token = localStorage.getItem('token')
 
   function HideOnScroll(props) {
     const { children, window } = props;
@@ -36,20 +43,30 @@ const Navbar = (props) => {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setIsLoggedIn(true);
+      dispatch(asyncGetUser())
+      dispatch(asyncGetCustomers())
+      dispatch(asyncGetPorducts())
+      dispatch(asyncGetBills())
     }
-  }, []);
+  }, [token,dispatch]);
 
   const handleAfterLogOut = () => {
     localStorage.removeItem("token");
-    props.history.push("/");
     handleIsLoggedIn();
   };
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm("Are you sure?");
-    if (confirmLogout) {
-      dispatch(logoutUser(handleAfterLogOut));
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Logout'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(logoutUser(handleAfterLogOut));
+      }
+    })
   };
 
   const handleIsLoggedIn = () => {
@@ -79,14 +96,16 @@ const Navbar = (props) => {
             </Button>
             {isLoggedIn ? (
               <>
-                <IconButton
-                  variant="text"
-                  sx={{ color: "black", marginRight: "30px", right: "110px" }}
-                >
-                  <Link id="textColor" className="link" to="/account">
-                    <AccountCircleIcon sx={{ fontSize: "2.5rem", color: "black" }}/>
-                  </Link>
-                </IconButton>
+                <Tooltip title='User Profile'>
+                  <IconButton
+                    variant="text"
+                    sx={{ color: "black", marginRight: "30px", right: "110px" }}
+                  >
+                    <Link id="textColor" className="link" to="/account">
+                      <AccountCircleIcon sx={{ fontSize: "2.5rem", color: "black" }}/>
+                    </Link>
+                  </IconButton>
+                </Tooltip>
                 <Button
                   variant="text"
                   sx={{...navBarLinkBtn,marginRight: "30px"}}

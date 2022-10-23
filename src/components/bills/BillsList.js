@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from 'sweetalert2'
 import {
   TableContainer,
   Table,
@@ -15,19 +16,27 @@ import { asyncRemoveBill } from "../../actions/billsActions";
 import { findCustomer } from "../../helpers/helperFunctions";
 
 const BillsList = (props) => {
-  const { bills, customers } = props;
+  const { bills, customers, getFirstIndexOfBillsItem,getLastIndexOfBillsItem} = props;
   const dispatch = useDispatch();
 
   const handleRemove = (id) => {
-    const confirmRemove = window.confirm("Are you sure?");
-    if (confirmRemove) {
-      dispatch(asyncRemoveBill(id));
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(asyncRemoveBill(id));
+      }
+    })
   };
 
   return (
     <TableContainer component={Paper} sx={{ width: "600px" }}>
       <Table>
+        <caption>Listing Bills - {bills.length}</caption>
         <TableHead sx={{ bgcolor: "#e0f2f1" }}>
           <TableRow>
             <TableCell> Customer </TableCell>
@@ -37,7 +46,7 @@ const BillsList = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {bills.map((bill) => {
+          {bills.slice(getFirstIndexOfBillsItem,getLastIndexOfBillsItem).map((bill) => {
             return (
               <TableRow key={bill._id} hover role="checkbox">
                 <TableCell>

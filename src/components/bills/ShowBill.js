@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import {
   Box,
   Paper,
@@ -14,23 +14,12 @@ import {
 
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
-import { asyncGetBills } from "../../actions/billsActions";
-import { asyncGetCustomers } from "../../actions/customersActions";
-import { asyncGetPorducts } from "../../actions/productsActions";
-
 
 const ShowBill = (props) => {
   const { id } = props.match.params;
-  const dispatch = useDispatch();
   const componentRef = useRef();
-
-  useEffect(() => {
-    dispatch(asyncGetBills());
-    dispatch(asyncGetCustomers());
-    dispatch(asyncGetPorducts());
-  }, [dispatch]);
 
   const { bills, customers, products } = useSelector((state) => {
     return state;
@@ -76,16 +65,16 @@ const ShowBill = (props) => {
                 }}
               >
                 <Typography variant="h6" component="h1">
-                  Name : {findCustomer().name}{" "}
+                  Name : {findCustomer().name}
                 </Typography>
                 <Typography variant="subtitle1" component="h1">
-                  Ph : {findCustomer().mobile}{" "}
+                  Ph : {findCustomer().mobile}
                 </Typography>
                 <Typography variant="subtitle1" component="h1">
-                  Email : {findCustomer().email ? findCustomer().email : "N/A"}{" "}
+                  Email : {findCustomer().email ? findCustomer().email : "N/A"}
                 </Typography>
                 <Typography variant="subtitle1" component="h1">
-                  Date : {findBill().createdAt.slice(0, 10)}{" "}
+                  Date : {findBill().createdAt.slice(0, 10)}
                 </Typography>
               </Box>
             )}
@@ -115,8 +104,7 @@ const ShowBill = (props) => {
                       return (
                         <TableRow key={lineItem._id} hover role="checkbox">
                           <TableCell>
-                            {" "}
-                            {findProduct(lineItem.product)}{" "}
+                            {findProduct(lineItem.product)}
                           </TableCell>
                           <TableCell> {lineItem.quantity} </TableCell>
                           <TableCell> {lineItem.price} </TableCell>

@@ -1,6 +1,7 @@
 import React from "react";
+import Swal from 'sweetalert2'
 import { TableCell, TableRow, Button } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import {
   asyncShowCustDetails,
   asyncRemoveCustomer,
@@ -12,16 +13,23 @@ const CustomerRowItems = (props) => {
   const dispatch = useDispatch();
 
   const handleRemove = () => {
-    const confirmRemove = window.confirm("Are you sure?");
-    if (confirmRemove) {
-      dispatch(asyncRemoveCustomer(customer._id));
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Remove'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(asyncRemoveCustomer(customer._id));
+      }
+    })
   };
 
   const showCustDetails = () => {
     dispatch(asyncShowCustDetails(customer._id));
   };
-
+  
   return (
     <TableRow hover role="checkbox">
       <TableCell> {customer.name} </TableCell>

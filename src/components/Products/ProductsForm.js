@@ -25,7 +25,13 @@ const ProductsForm = (props) => {
   });
 
   return (
-    <Box component="form" onSubmit={formik.handleSubmit}>
+    <Box 
+    sx={{
+      p: "0px 20px 20px 50px",
+    }}
+    component="form" 
+    onSubmit={formik.handleSubmit}
+    >
       <Grid2 xs={12}>
         <TextField
           {...formik.getFieldProps("name")}

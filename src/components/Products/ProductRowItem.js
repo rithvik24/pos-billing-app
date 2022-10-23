@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { TableRow, TableCell, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import {
@@ -12,10 +13,17 @@ const ProductRowItem = (props) => {
   const dispatch = useDispatch();
 
   const handleRemove = () => {
-    const confirmRemove = window.confirm("Are you sure?");
-    if (confirmRemove) {
-      dispatch(asyncRemoveProduct(product._id));
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Remove'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(asyncRemoveProduct(product._id));
+      }
+    })
   };
 
   const showProductDetails = () => {
@@ -23,7 +31,7 @@ const ProductRowItem = (props) => {
   };
 
   return (
-    <TableRow>
+    <TableRow hover role="checkbox">
       <TableCell> {product.name} </TableCell>
       <TableCell> {product.price} </TableCell>
       <TableCell>

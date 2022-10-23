@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   MenuItem,
@@ -14,20 +14,13 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { format } from "date-fns";
 import * as yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { asyncGetCustomers } from "../../actions/customersActions";
-import { asyncGetPorducts } from "../../actions/productsActions";
 
 const BillsForm = (props) => {
   const { generateBill } = props;
   const [lineItems, setLineItems] = useState([{ product: "", quantity: "" }]);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(asyncGetCustomers());
-    dispatch(asyncGetPorducts());
-  }, [dispatch]);
   const { customers, products } = useSelector((state) => {
     return state;
   });

@@ -1,5 +1,5 @@
 import React from "react";
-import { styled,Typography, TableContainer,Paper,Table,TableHead,TableBody,TableRow,TableCell} from "@mui/material";
+import { Typography, TableContainer,Paper,Table,TableHead,TableBody,TableRow,TableCell} from "@mui/material";
 import { findCustomer } from "../../helpers/helperFunctions";
 
 const RecentBills = ({ data,customers }) => {
